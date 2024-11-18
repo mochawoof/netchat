@@ -48,7 +48,7 @@ class App extends JFrame {
     }
     
     public App() {
-        setTitle("NetChat");
+        setTitle("netchat! Beta");
         setSize(300, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setIconImage(Resources.getAsImage("res/icon.png"));
