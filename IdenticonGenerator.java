@@ -14,9 +14,12 @@ import java.security.NoSuchAlgorithmException;
  * 
  * Modified by Julian 11/18/2024
  */
+import java.awt.Color;
 
 public class IdenticonGenerator {
-    
+    private int[] saturate(int[] color) {
+        
+    }
     public static BufferedImage generateIdenticons(String text, int image_width, int image_height) {
         int width = 5, height = 5;
 
@@ -25,6 +28,7 @@ public class IdenticonGenerator {
         BufferedImage identicon = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         WritableRaster raster = identicon.getRaster();
 
+        System.out.println(Color.HSBtoRGB(0.0f, 1.0f, 1.0f));
         int[] background = new int[] {hash[0] & 255, hash[1] & 255, hash[2] & 255, 255};
         int[] foreground = new int[] {hash[3] & 255, hash[4] & 255, hash[5] & 255, 255};
 

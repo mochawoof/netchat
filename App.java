@@ -31,10 +31,10 @@ class App extends JFrame {
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         tabPane.addTab("#p", p);
         
-        JButton l = new JButton("<html><b>Julian (9:25 AM)</b> Hi guoys</html>");
+        JButton l = new JButton("Hi guoys");
         l.setHorizontalAlignment(SwingConstants.LEFT);
         
-        l.setIcon(new ImageIcon(IdenticonGenerator.create("Julian", 20)));
+        l.setIcon(new ImageIcon(IdenticonGenerator.create("12.12.12.12", 20)));
         p.add(l);
         
         add(tabPane, BorderLayout.CENTER);
@@ -44,7 +44,7 @@ class App extends JFrame {
         add(bottomPanel, BorderLayout.PAGE_END);
         
         JButton meButton = new JButton();
-        meButton.setIcon(new ImageIcon(IdenticonGenerator.create("Julian", 20)));
+        meButton.setIcon(new ImageIcon(IdenticonGenerator.create("12.12.12.12", 20)));
         bottomPanel.add(meButton, BorderLayout.LINE_START);
         
         JTextField msgField = new JTextField();
