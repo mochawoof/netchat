@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -19,42 +20,67 @@ class App extends JFrame {
         }
     }
     
-    public App() {
-        setTitle("NetChat");
-        setSize(600, 300);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+    private JTabbedPane tabPane;
+    
+    private void addChannel(String name) {
+        name = name.toLowerCase();
         
-        JTabbedPane tabPane = new JTabbedPane();
+        JScrollPane pPane = new JScrollPane();
+        pPane.getVerticalScrollBar().setUnitIncrement(15);
+        tabPane.addTab("#" + name, pPane);
         
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-        tabPane.addTab("#p", p);
+        pPane.setViewportView(p);
         
-        JButton l = new JButton("Hi guoys");
-        l.setHorizontalAlignment(SwingConstants.LEFT);
+        for (int i = 0; i < 20; i++) {
+            HTMLButton l = new HTMLButton("Hi guoys " + i);
+            l.setHorizontalAlignment(SwingConstants.LEFT);
+            
+            l.setIcon(new ImageIcon(IdenticonGenerator.create("127.0.0.1", 20)));
+            p.add(l);
+        }
         
-        l.setIcon(new ImageIcon(IdenticonGenerator.create("12.12.12.12", 20)));
-        p.add(l);
+        if (tabPane.indexOfTab("+") != -1) {
+            tabPane.removeTabAt(tabPane.indexOfTab("+"));
+        }
+        tabPane.addTab("+", null);
+    }
+    
+    public App() {
+        setTitle("NetChat");
+        setSize(300, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setIconImage(Resources.getAsImage("res/icon.png"));
+        setLayout(new BorderLayout());
         
+        tabPane = new JTabbedPane();
         add(tabPane, BorderLayout.CENTER);
+        tabPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                int i = tabPane.getSelectedIndex();
+                
+                if (tabPane.getTitleAt(i) == "+") {
+                    tabPane.setSelectedIndex(0);
+                }
+            }
+        });
+        
+        addChannel("general");
         
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BorderLayout());
         add(bottomPanel, BorderLayout.PAGE_END);
         
         JButton meButton = new JButton();
-        meButton.setIcon(new ImageIcon(IdenticonGenerator.create("12.12.12.12", 20)));
+        meButton.setIcon(new ImageIcon(IdenticonGenerator.create("127.0.0.1", 20)));
         bottomPanel.add(meButton, BorderLayout.LINE_START);
         
         JTextField msgField = new JTextField();
         bottomPanel.add(msgField, BorderLayout.CENTER);
         
-        
-        
-        JLabel statusLabel = new JLabel("Connecting...");
-        statusLabel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        bottomPanel.add(statusLabel, BorderLayout.PAGE_END);
+        JButton sendButton = new JButton("Send");
+        bottomPanel.add(sendButton, BorderLayout.LINE_END);
         
         setVisible(true);
     }

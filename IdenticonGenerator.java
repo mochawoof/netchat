@@ -17,8 +17,14 @@ import java.security.NoSuchAlgorithmException;
 import java.awt.Color;
 
 public class IdenticonGenerator {
-    private int[] saturate(int[] color) {
+    public static int[] saturate(int[] color) {
+        // 0-255
+        float[] hsb = Color.RGBtoHSB(color[0], color[1], color[2], new float[] {0, 0, 0});
+        hsb[1] = 1.0f;
+        hsb[2] = 1.0f;
+        Color clr = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
         
+        return new int[] {clr.getRed(), clr.getGreen(), clr.getBlue(), color[3]};
     }
     public static BufferedImage generateIdenticons(String text, int image_width, int image_height) {
         int width = 5, height = 5;
@@ -28,9 +34,8 @@ public class IdenticonGenerator {
         BufferedImage identicon = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         WritableRaster raster = identicon.getRaster();
 
-        System.out.println(Color.HSBtoRGB(0.0f, 1.0f, 1.0f));
-        int[] background = new int[] {hash[0] & 255, hash[1] & 255, hash[2] & 255, 255};
-        int[] foreground = new int[] {hash[3] & 255, hash[4] & 255, hash[5] & 255, 255};
+        int[] background = saturate(new int[] {hash[0] & 255, hash[1] & 255, hash[2] & 255, 255});
+        int[] foreground = saturate(new int[] {hash[3] & 255, hash[4] & 255, hash[5] & 255, 255});
 
         for(int x = 0; x < width; x++) {
             //Enforce horizontal symmetry
